@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bdb831102278ca49bd976755f480699, type: 3}
+  m_Name: DefaultCursorShapes
+  m_EditorClassIdentifier: 
+  Arrow:
+    texture: {fileID: 2800000, guid: ea46916e6ffb6514c8cd48501aae4413, type: 3}
+    hotspot: {x: 7, y: 4}
+  TextInput:
+    texture: {fileID: 2800000, guid: 6cc6ea8c71cf6bb43ac0fa3388381bca, type: 3}
+    hotspot: {x: 11, y: 11}
+  ResizeAll:
+    texture: {fileID: 2800000, guid: 5f341bb432902ed40b45110627297954, type: 3}
+    hotspot: {x: 4, y: 5}
+  ResizeEW:
+    texture: {fileID: 2800000, guid: 448abc114685f314faa22e666326161c, type: 3}
+    hotspot: {x: 11, y: 11}
+  ResizeNS:
+    texture: {fileID: 2800000, guid: 32f6dcbea90e6ed49bea4b90a87f21f0, type: 3}
+    hotspot: {x: 11, y: 11}
+  ResizeNESW:
+    texture: {fileID: 2800000, guid: 37285429d3bbe394e86fd66efb774ad5, type: 3}
+    hotspot: {x: 11, y: 11}
+  ResizeNWSE:
+    texture: {fileID: 2800000, guid: d5999ae9988146342b95b8b8c27d40bb, type: 3}
+    hotspot: {x: 11, y: 11}
+  Hand:
+    texture: {fileID: 2800000, guid: 24f564a03779c3a4297194dac78ad82b, type: 3}
+    hotspot: {x: 9, y: 5}
+  NotAllowed:
+    texture: {fileID: 2800000, guid: d1bbf82de973dbc4db33890da69c35ed, type: 3}
+    hotspot: {x: 11, y: 11}

@@ -1,0 +1,29 @@
+{
+    "name": "RG.ImGui.Unity",
+    "references": [
+        "GUID:20ee313e09faec446a26ffa1daf5636b",
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:df380645f10b7bc4b97d4f5eb6303d95",
+        "GUID:15fc0a57446b3144c949da3e2b9737a9"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": true,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.inputsystem",
+            "expression": "0.9",
+            "define": "HAS_INPUTSYSTEM"
+        },
+        {
+            "name": "com.unity.render-pipelines.universal",
+            "expression": "7.0.0",
+            "define": "HAS_URP"
+        }
+    ],
+    "noEngineReferences": false
+}

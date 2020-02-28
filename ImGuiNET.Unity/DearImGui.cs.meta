@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 5fa779297770e0849864f782007007e3
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - _camera: {instanceID: 0}
+  - _renderFeature: {instanceID: 0}
+  - _fontAtlasConfiguration: {instanceID: 0}
+  - _iniSettings: {instanceID: 0}
+  - _shaders: {fileID: 11400000, guid: 9c25b437bdcfe95449d0617c2f2ee93d, type: 2}
+  - _style: {fileID: 11400000, guid: 2f5e7cc338c3ffc4caddb08baa576db2, type: 2}
+  - _cursorShapes: {fileID: 11400000, guid: 79f57b40c6f98a5418bdf959f1061379, type: 2}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
