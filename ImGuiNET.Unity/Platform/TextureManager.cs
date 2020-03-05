@@ -1,6 +1,8 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Collections;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET.Unity
 {
@@ -8,7 +10,6 @@ namespace ImGuiNET.Unity
     {
         public Texture texture;
         public Vector2 size;
-        public bool packed;
         public Vector2 uv0, uv1;
     }
 
@@ -21,17 +22,20 @@ namespace ImGuiNET.Unity
         readonly Dictionary<Sprite, SpriteInfo> _spriteData = new Dictionary<Sprite, SpriteInfo>();
         readonly HashSet<IntPtr> _allocatedGlyphRangeArrays = new HashSet<IntPtr>(IntPtrEqualityComparer.Instance);
 
-        public int RegisterTexture(Texture texture)
+        public void PrepareFrame(ImGuiIOPtr io)
+        {
+            _currentTextureId = 0;
+            _textures.Clear();
+            _textureIds.Clear();
+            int id = RegisterTexture(_atlasTex);
+            io.Fonts.SetTexID((IntPtr)id);
+        }
+
+        int RegisterTexture(Texture texture)
         {
             _textures[++_currentTextureId] = texture;
             _textureIds[texture] = _currentTextureId;
             return _currentTextureId;
-        }
-
-        public void DeregisterTexture(int id)
-        {
-            _textureIds.Remove(GetTexture(id));
-            _textures.Remove(id);
         }
 
         public Texture GetTexture(int id)
@@ -40,10 +44,11 @@ namespace ImGuiNET.Unity
             return texture;
         }
 
-        public int GetTextureID(Texture texture)
+        public int GetTextureId(Texture texture)
         {
-            _textureIds.TryGetValue(texture, out int id);
-            return id;
+            return _textureIds.TryGetValue(texture, out int id)
+                ? id
+                : RegisterTexture(texture);
         }
 
         public SpriteInfo GetSpriteInfo(Sprite sprite)
@@ -55,9 +60,8 @@ namespace ImGuiNET.Unity
                 {
                     texture = sprite.texture,
                     size = sprite.rect.size,
-                    packed = sprite.packed,
-                    uv0 = ImGuiUn.UVFix(uvs[0]), // sprite uvs are already fixed => invert to appear correctly after inverting again
-                    uv1 = ImGuiUn.UVFix(uvs[uvs.Length - 1]),
+                    uv0 = new Vector2(uvs[0].x, 1f - uvs[0].y),
+                    uv1 = new Vector2(uvs[1].x, 1f - uvs[1].y),
                 };
             }
             return sprInfo;
@@ -150,23 +154,36 @@ namespace ImGuiNET.Unity
         public void Initialize(ImGuiIOPtr io)
         {
             // load and register font atlas
-            ImFontAtlasPtr atlas = io.Fonts;
-            unsafe
-            {
-                atlas.GetTexDataAsRGBA32(out byte* pixels, out int width, out int height, out int bytesPerPixel);
-                _atlasTex = new Texture2D(width, height, TextureFormat.RGBA32, false, false);
-                _atlasTex.LoadRawTextureData((IntPtr)pixels, width * height * bytesPerPixel);
-            }
-            _atlasTex.filterMode = FilterMode.Point;
-            _atlasTex.Apply();
-            int id = RegisterTexture(_atlasTex);
-            atlas.SetTexID((IntPtr)id);
+            _atlasTex = CreateAtlasTexture(io.Fonts);
         }
 
         public void Shutdown()
         {
+            _currentTextureId = 0;
             _textures.Clear();
+            _textureIds.Clear();
+            _spriteData.Clear();
             if (_atlasTex != null) { GameObject.Destroy(_atlasTex); _atlasTex = null; }
+        }
+
+        unsafe Texture2D CreateAtlasTexture(ImFontAtlasPtr atlas)
+        {
+            atlas.GetTexDataAsRGBA32(out byte* pixels, out int width, out int height, out int bytesPerPixel);
+            var atlasTexture = new Texture2D(width, height, TextureFormat.RGBA32, false, false) { filterMode = FilterMode.Point };
+
+            NativeArray<byte> srcData = NativeArrayUnsafeUtility.ConvertExistingDataToNativeArray<byte>(
+                (void*)pixels, width * height * bytesPerPixel, Allocator.None);
+#if ENABLE_UNITY_COLLECTIONS_CHECKS
+            NativeArrayUnsafeUtility.SetAtomicSafetyHandle(ref srcData, AtomicSafetyHandle.GetTempMemoryHandle());
+#endif
+            // invert y while copying the atlas texture
+            NativeArray<byte> dstData = atlasTexture.GetRawTextureData<byte>();
+            int stride = width * bytesPerPixel;
+            for (int y = 0; y < height; ++y)
+                NativeArray<byte>.Copy(srcData, y * stride, dstData, (height - y - 1) * stride, stride);
+            atlasTexture.Apply();
+
+            return atlasTexture;
         }
     }
 }

@@ -24,7 +24,7 @@ Varyings ImGuiPassVertex(ImVert input)
 {
     Varyings output  = (Varyings)0;
     output.vertex    = UnityObjectToClipPos(float4(input.vertex, 0, 1));
-    output.uv        = input.uv;
+    output.uv        = float2(input.uv.x, 1 - input.uv.y);
     output.color     = unpack_color(input.color);
     return output;
 }

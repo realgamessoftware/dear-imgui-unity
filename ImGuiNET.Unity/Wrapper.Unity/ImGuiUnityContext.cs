@@ -13,14 +13,12 @@ namespace ImGuiNET
     public static unsafe partial class ImGuiUn
     {
         // layout
-        public static event Action OnLayout;    // global/default Layout event, each ImGuiUnity instance also has a private one
-        internal static void Layout() => OnLayout?.Invoke(); // expose Layout to ImGuiUnity without removing protection from 'event'
+        public static event Action OnLayout;    // global/default Layout event, each DearImGui instance also has a private one
+        internal static void Layout() => OnLayout?.Invoke();
 
         // textures
-        public static int RegisterTexture(Texture texture) => s_currentUnityContext?.textures.RegisterTexture(texture) ?? -1;
-        public static void DeregisterTexture(int id) => s_currentUnityContext?.textures.DeregisterTexture(id);
-        public static int GetTextureID(Texture texture) => s_currentUnityContext?.textures.GetTextureID(texture) ?? -1;
-        static SpriteInfo GetSpriteInfo(Sprite sprite) => s_currentUnityContext?.textures.GetSpriteInfo(sprite) ?? null;
+        public static int GetTextureId(Texture texture) => s_currentUnityContext?.textures.GetTextureId(texture) ?? -1;
+        internal static SpriteInfo GetSpriteInfo(Sprite sprite) => s_currentUnityContext?.textures.GetSpriteInfo(sprite) ?? null;
 
         internal static ImGuiUnityContext s_currentUnityContext;
 

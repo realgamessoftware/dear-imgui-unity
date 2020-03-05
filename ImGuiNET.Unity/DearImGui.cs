@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Profiling;
 
@@ -134,6 +134,7 @@ namespace ImGuiNET.Unity
             ImGuiIOPtr io = ImGui.GetIO();
 
             s_prepareFramePerfMarker.Begin(this);
+            _context.textures.PrepareFrame(io);
             _platform.PrepareFrame(io, _camera.pixelRect);
             ImGui.NewFrame();
             s_prepareFramePerfMarker.End();

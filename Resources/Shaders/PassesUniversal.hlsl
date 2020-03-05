@@ -28,7 +28,7 @@ Varyings ImGuiPassVertex(ImVert input)
 {
     Varyings output  = (Varyings)0;
     output.vertex    = TransformWorldToHClip(TransformObjectToWorld(float3(input.vertex, 0.0)));
-    output.uv        = input.uv;
+    output.uv        = float2(input.uv.x, 1 - input.uv.y);
     output.color     = unpack_color(input.color);
     return output;
 }
