@@ -13,8 +13,8 @@ namespace ImGuiNET
     public static unsafe partial class ImGuiUn
     {
         // layout
-        public static event Action OnLayout;    // global/default Layout event, each DearImGui instance also has a private one
-        internal static void Layout() => OnLayout?.Invoke();
+        public static event Action Layout;    // global/default Layout event, each DearImGui instance also has a private one
+        internal static void DoLayout() => Layout?.Invoke();
 
         // textures
         public static int GetTextureId(Texture texture) => s_currentUnityContext?.textures.GetTextureId(texture) ?? -1;

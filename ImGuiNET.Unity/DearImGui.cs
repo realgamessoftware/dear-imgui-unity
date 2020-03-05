@@ -19,7 +19,7 @@ namespace ImGuiNET.Unity
         CommandBuffer _cmd;
         bool _usingURP;
 
-        public event System.Action OnLayout;    // Layout event for *this* ImGui instance
+        public event System.Action Layout;  // Layout event for *this* ImGui instance
         [SerializeField] bool _doGlobalLayout = true; // do global/default Layout event too
 
         [SerializeField] Camera _camera = null;
@@ -143,8 +143,8 @@ namespace ImGuiNET.Unity
             try
             {
                 if (_doGlobalLayout)
-                    ImGuiUn.Layout();   // ImGuiUn.OnLayout: global handlers
-                OnLayout?.Invoke();     // this.OnLayout: handlers specific to this instance
+                    ImGuiUn.DoLayout();   // ImGuiUn.Layout: global handlers
+                Layout?.Invoke();     // this.Layout: handlers specific to this instance
             }
             finally
             {
