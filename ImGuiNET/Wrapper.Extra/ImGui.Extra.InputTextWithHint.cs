@@ -11,14 +11,20 @@ namespace ImGuiNET
             string label,
             string hint,
             ref string input,
-            uint maxLength) => InputTextWithHint(label, hint, ref input, maxLength, 0, null, IntPtr.Zero);
+            uint maxLength)
+        {
+            return InputTextWithHint(label, hint, ref input, maxLength, ImGuiInputTextFlags.None, null, IntPtr.Zero);
+        }
 
         public static bool InputTextWithHint(
             string label,
             string hint,
             ref string input,
             uint maxLength,
-            ImGuiInputTextFlags flags) => InputTextWithHint(label, hint, ref input, maxLength, flags, null, IntPtr.Zero);
+            ImGuiInputTextFlags flags)
+        {
+            return InputTextWithHint(label, hint, ref input, maxLength, flags, null, IntPtr.Zero);
+        }
 
         public static bool InputTextWithHint(
             string label,
@@ -26,7 +32,10 @@ namespace ImGuiNET
             ref string input,
             uint maxLength,
             ImGuiInputTextFlags flags,
-            ImGuiInputTextCallback callback) => InputTextWithHint(label, hint, ref input, maxLength, flags, callback, IntPtr.Zero);
+            ImGuiInputTextCallback callback)
+        {
+            return InputTextWithHint(label, hint, ref input, maxLength, flags, callback, IntPtr.Zero);
+        }
 
         public static bool InputTextWithHint(
             string label,

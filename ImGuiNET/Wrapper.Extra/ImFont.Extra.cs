@@ -34,7 +34,6 @@ namespace ImGuiNET
             return ret;
         }
 
-        // overload with a single char to avoid allocating a string (TextEditor)
         public Vector2 CalcTextSizeA(float font_size, float max_width, float wrap_width, char ch)
         {
             byte* native_text;

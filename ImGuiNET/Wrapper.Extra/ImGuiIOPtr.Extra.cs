@@ -34,7 +34,7 @@ namespace ImGuiNET
             if (NativePtr->BackendPlatformName != (byte*)0)
             {
                 if (s_managedAllocations.Contains((IntPtr)NativePtr->BackendPlatformName))
-                Util.Free(NativePtr->BackendPlatformName);
+                    Util.Free(NativePtr->BackendPlatformName);
                 NativePtr->BackendPlatformName = (byte*)0;
             }
             if (name != null)
