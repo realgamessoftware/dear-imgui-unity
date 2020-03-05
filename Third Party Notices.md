@@ -20,3 +20,10 @@ Component Name: ImGui.NET
 License Type: "MIT"
 
 [ImGui.NET](https://github.com/mellinoe/ImGui.NET/blob/master/LICENSE)
+
+
+Component Name: FreeType
+
+License Type: "FTL"
+
+[FreeType](https://git.savannah.gnu.org/cgit/freetype/freetype2.git/tree/docs/FTL.TXT)
