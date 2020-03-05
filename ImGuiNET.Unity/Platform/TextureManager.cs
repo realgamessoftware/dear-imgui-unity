@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -70,7 +70,7 @@ namespace ImGuiNET.Unity
                 return IntPtr.Zero;
 
             int byteCount = sizeof(ushort) * (values.Count + 1); // terminating zero
-            var ranges = (ushort*)InteropUtil.Allocate(byteCount);
+            var ranges = (ushort*)Util.Allocate(byteCount);
             _allocatedGlyphRangeArrays.Add((IntPtr)ranges);
             for (var i = 0; i < values.Count; ++i)
                 ranges[i] = values[i];
@@ -81,7 +81,7 @@ namespace ImGuiNET.Unity
         unsafe void FreeGlyphRangeArrays()
         {
             foreach (var range in _allocatedGlyphRangeArrays)
-                InteropUtil.Free((byte*)range);
+                Util.Free((byte*)range);
             _allocatedGlyphRangeArrays.Clear();
         }
 

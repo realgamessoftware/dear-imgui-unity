@@ -81,7 +81,7 @@ namespace ImGuiNET.Unity
         {
             set => _setClipboardText = (user_data, text) =>
             {
-                try { value(new IntPtr(user_data), InteropUtil.StringFromPtr(text)); }
+                try { value(new IntPtr(user_data), Util.StringFromPtr(text)); }
                 catch (Exception ex) { Debug.LogException(ex); }
             };
         }
@@ -100,7 +100,7 @@ namespace ImGuiNET.Unity
         {
             set => _logAssert = (condition, file, line) =>
             {
-                try { value(InteropUtil.StringFromPtr(condition), InteropUtil.StringFromPtr(file), line); }
+                try { value(Util.StringFromPtr(condition), Util.StringFromPtr(file), line); }
                 catch (Exception ex) { Debug.LogException(ex); }
             };
         }
