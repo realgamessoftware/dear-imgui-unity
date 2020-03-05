@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Profiling;
 
@@ -26,7 +26,7 @@ namespace ImGuiNET.Unity
         [SerializeField] RenderImGuiFeature _renderFeature = null;
 
         [SerializeField] RenderUtils.RenderType _rendererType = RenderUtils.RenderType.Mesh;
-        [SerializeField] Platform.Type _platformType = Platform.Type.InputSystem;
+        [SerializeField] Platform.Type _platformType = Platform.Type.InputManager;
 
         [Header("Configuration")]
         [SerializeField] IOConfig _initialConfiguration = default;

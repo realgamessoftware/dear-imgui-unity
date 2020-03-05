@@ -19,7 +19,7 @@ namespace ImGuiNET.Unity
     /// <summary>
     /// Platform bindings for ImGui in Unity in charge of: mouse/keyboard/gamepad inputs, cursor shape, timing, windowing.
     /// </summary>
-    sealed class ImGuiPlatformUnity : IImGuiPlatform
+    sealed class ImGuiPlatformInputSystem : IImGuiPlatform
     {
         int[] _mainKeys;                                                        // main keys
         readonly List<char> _textInput = new List<char>();                      // accumulate text input
@@ -40,7 +40,7 @@ namespace ImGuiNET.Unity
 #endif
         };
 
-        public ImGuiPlatformUnity(CursorShapesAsset cursorShapes, IniSettingsAsset iniSettings)
+        public ImGuiPlatformInputSystem(CursorShapesAsset cursorShapes, IniSettingsAsset iniSettings)
         {
             _cursorShapes = cursorShapes;
             _iniSettings = iniSettings;
@@ -51,7 +51,7 @@ namespace ImGuiNET.Unity
         {
             InputSystem.onDeviceChange += OnDeviceChange;                       // listen to keyboard device and layout changes
 
-            io.SetBackendPlatformName("Unity InputSystem");                     // setup backend info and capabilities
+            io.SetBackendPlatformName("Unity Input System");                    // setup backend info and capabilities
             io.BackendFlags |= ImGuiBackendFlags.HasMouseCursors;               // can honor GetMouseCursor() values
             io.BackendFlags |= ImGuiBackendFlags.HasSetMousePos;                // can honor io.WantSetMousePos requests
             // io.BackendFlags |= ImGuiBackendFlags.HasGamepad;                 // set by UpdateGamepad()

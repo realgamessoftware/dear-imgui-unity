@@ -6,7 +6,7 @@ namespace ImGuiNET.Unity
     {
         public enum Type
         {
-            LegacyInput = 0,
+            InputManager = 0,
             InputSystem = 1,
         }
 
@@ -14,7 +14,7 @@ namespace ImGuiNET.Unity
         {
             switch (type)
             {
-                case Type.LegacyInput: return true;
+                case Type.InputManager: return true;
 #if HAS_INPUTSYSTEM
                 case Type.InputSystem: return true;
 #endif
@@ -26,9 +26,9 @@ namespace ImGuiNET.Unity
         {
             switch (type)
             {
-                case Type.LegacyInput: return new ImGuiPlatformUnityLegacy(cursors, iniSettings);
+                case Type.InputManager: return new ImGuiPlatformInputManager(cursors, iniSettings);
 #if HAS_INPUTSYSTEM
-                case Type.InputSystem: return new ImGuiPlatformUnity(cursors, iniSettings);
+                case Type.InputSystem: return new ImGuiPlatformInputSystem(cursors, iniSettings);
 #endif
                 default:
                     Debug.LogError($"[DearImGui] {type} platform not available.");
