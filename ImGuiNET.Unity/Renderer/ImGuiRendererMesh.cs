@@ -159,7 +159,7 @@ namespace ImGuiNET.Unity
                     if (prevTextureId != drawCmd.TextureId)
                         _properties.SetTexture(_texID, _texManager.GetTexture((int)(prevTextureId = drawCmd.TextureId)));
 
-                    cmd.EnableScissorRect(new Rect(clip.x, Screen.height - clip.w, clip.z - clip.x, clip.w - clip.y)); // invert y
+                    cmd.EnableScissorRect(new Rect(clip.x, fbSize.y - clip.w, clip.z - clip.x, clip.w - clip.y)); // invert y
                     cmd.DrawMesh(_mesh, Matrix4x4.identity, _material, subOf, -1, _properties);
                 }
             }

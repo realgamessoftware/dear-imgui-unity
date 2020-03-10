@@ -24,9 +24,11 @@
 
             Varyings vert(uint id : SV_VertexID)
             {
+#if defined(SHADER_API_D3D11) || defined(SHADER_API_XBOXONE)
                 // BaseVertexLocation is not automatically added to SV_VertexID
-                // https://twitter.com/iquilezles/status/986212611669700609?lang=en
-                ImVert v = _Vertices[id + _BaseVertex];
+                id += _BaseVertex;
+#endif
+                ImVert v = _Vertices[id];
                 return ImGuiPassVertex(v);
             }
             ENDHLSL
@@ -48,10 +50,8 @@
             Name "DEARIMGUI PROCEDURAL BUILTIN"
 
             CGPROGRAM
-            #pragma target 4.5
             #pragma vertex vert
             #pragma fragment ImGuiPassFrag
-            #include "UnityCG.cginc"
             #include "Packages/com.realgames.dear-imgui/Resources/Shaders/PassesBuiltin.hlsl"
 
             StructuredBuffer<ImVert> _Vertices;
@@ -59,9 +59,11 @@
 
             Varyings vert(uint id : SV_VertexID)
             {
+#if defined(SHADER_API_D3D11) || defined(SHADER_API_XBOXONE)
                 // BaseVertexLocation is not automatically added to SV_VertexID
-                // https://twitter.com/iquilezles/status/986212611669700609?lang=en
-                ImVert v = _Vertices[id + _BaseVertex];
+                id += _BaseVertex;
+#endif
+                ImVert v = _Vertices[id];
                 return ImGuiPassVertex(v);
             }
             ENDCG

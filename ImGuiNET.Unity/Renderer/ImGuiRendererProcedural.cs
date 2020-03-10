@@ -182,7 +182,7 @@ namespace ImGuiNET.Unity
                         _properties.SetTexture(_texID, _texManager.GetTexture((int)(prevTextureId = drawCmd.TextureId)));
 
                     _properties.SetInt(_baseVertexID, vtxOf + (int)drawCmd.VtxOffset); // base vertex location not automatically added to SV_VertexID
-                    cmd.EnableScissorRect(new Rect(clip.x, Screen.height - clip.w, clip.z - clip.x, clip.w - clip.y)); // invert y
+                    cmd.EnableScissorRect(new Rect(clip.x, fbSize.y - clip.w, clip.z - clip.x, clip.w - clip.y)); // invert y
                     cmd.DrawProceduralIndirect(_idxBuf, Matrix4x4.identity, _material, -1, MeshTopology.Triangles, _argBuf, argOf, _properties);
                 }
                 vtxOf += drawList.VtxBuffer.Size;
