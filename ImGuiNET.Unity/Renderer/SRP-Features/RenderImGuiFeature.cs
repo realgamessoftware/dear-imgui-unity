@@ -45,7 +45,7 @@ namespace ImGuiNET.Unity
 #else
 namespace ImGuiNET.Unity
 {
-    public class RenderCommandBufferFeature : UnityEngine.ScriptableObject
+    public class RenderImGuiFeature : UnityEngine.ScriptableObject
     {
         public CommandBuffer commandBuffer;
     }
