@@ -22,19 +22,19 @@ namespace ImGuiNET.Unity
         IImGuiPlatform _platform;
         CommandBuffer _cmd;
         bool _usingURP;
-		bool _usingHDRP;
+        bool _usingHDRP;
 
         public event System.Action Layout;  // Layout event for *this* ImGui instance
         [SerializeField] bool _doGlobalLayout = true; // do global/default Layout event too
-		
+        
         [SerializeField] Camera _camera = null;
         [SerializeField] RenderImGuiFeature _renderFeature = null;
 
-		#if HAS_HDRP
-			HDAdditionalCameraData _hdCameraData;
-		#endif
+        #if HAS_HDRP
+            HDAdditionalCameraData _hdCameraData;
+        #endif
 
-		[SerializeField] RenderUtils.RenderType _rendererType = RenderUtils.RenderType.Mesh;
+        [SerializeField] RenderUtils.RenderType _rendererType = RenderUtils.RenderType.Mesh;
         [SerializeField] Platform.Type _platformType = Platform.Type.InputManager;
 
         [Header("Configuration")]
@@ -52,7 +52,7 @@ namespace ImGuiNET.Unity
         static readonly ProfilerMarker s_layoutPerfMarker = new ProfilerMarker("DearImGui.Layout");
         static readonly ProfilerMarker s_drawListPerfMarker = new ProfilerMarker("DearImGui.RenderDrawLists");
 
-	    void Awake()
+        void Awake()
         {
             _context = ImGuiUn.CreateUnityContext();
         }
@@ -62,31 +62,31 @@ namespace ImGuiNET.Unity
             ImGuiUn.DestroyUnityContext(_context);
         }
 
-		void OnEnable()
+        void OnEnable()
         {
             _usingURP  = RenderUtils.IsUsingURP();
 
-			if (_camera == null) Fail(nameof(_camera));
-			if (_renderFeature == null && _usingURP) Fail(nameof(_renderFeature));
+            if (_camera == null) Fail(nameof(_camera));
+            if (_renderFeature == null && _usingURP) Fail(nameof(_renderFeature));
 
 
-			_cmd = RenderUtils.GetCommandBuffer(CommandBufferTag);
+            _cmd = RenderUtils.GetCommandBuffer(CommandBufferTag);
 #if HAS_HDRP
-			_usingHDRP = RenderUtils.IsUsingHDRP();
-			if (_usingHDRP)
-			{	
-				// I know... I know... using a goto, but in this instance it makes things a lot cleaner 
-				// due to the preprocessor directives and how unity has grouped things.
-				goto PostCommandBufferSetup;
-			}
+            _usingHDRP = RenderUtils.IsUsingHDRP();
+            if (_usingHDRP)
+            {    
+                // I know... I know... using a goto, but in this instance it makes things a lot cleaner 
+                // due to the preprocessor directives and how unity has grouped things.
+                goto PostCommandBufferSetup;
+            }
 #endif
 
-			if (_usingURP)
-				_renderFeature.commandBuffer = _cmd;
-			else
-				_camera.AddCommandBuffer(CameraEvent.AfterEverything, _cmd);
+            if (_usingURP)
+                _renderFeature.commandBuffer = _cmd;
+            else
+                _camera.AddCommandBuffer(CameraEvent.AfterEverything, _cmd);
 
-			PostCommandBufferSetup:
+            PostCommandBufferSetup:
 
             ImGuiUn.SetUnityContext(_context);
             ImGuiIOPtr io = ImGui.GetIO();
@@ -124,16 +124,16 @@ namespace ImGuiNET.Unity
             _context.textures.DestroyFontAtlas(io);
 
 #if HAS_HDRP
-			_usingHDRP = RenderUtils.IsUsingHDRP();
-			if (_usingHDRP)
-			{
-				// I know... I know... using a goto, but in this instance it makes things a lot cleaner 
-				// due to the preprocessor directives and how unity has grouped things.
-				goto PostCommandBufferTeardown;
-			}
+            _usingHDRP = RenderUtils.IsUsingHDRP();
+            if (_usingHDRP)
+            {
+                // I know... I know... using a goto, but in this instance it makes things a lot cleaner 
+                // due to the preprocessor directives and how unity has grouped things.
+                goto PostCommandBufferTeardown;
+            }
 #endif
 
-			if (_usingURP)
+            if (_usingURP)
             {
                 if (_renderFeature != null)
                     _renderFeature.commandBuffer = null;
@@ -144,22 +144,22 @@ namespace ImGuiNET.Unity
                     _camera.RemoveCommandBuffer(CameraEvent.AfterEverything, _cmd);
             }
 
-			PostCommandBufferTeardown:
+            PostCommandBufferTeardown:
 
 
-			if (_cmd != null)
+            if (_cmd != null)
                 RenderUtils.ReleaseCommandBuffer(_cmd);
             _cmd = null;
         }
 
 #if HAS_HDRP
-		public CommandBuffer GetCommandBuffer()
-		{
-			return _cmd;
-		}
+        public CommandBuffer GetCommandBuffer()
+        {
+            return _cmd;
+        }
 #endif
 
-		void Reset()
+        void Reset()
         {
             _camera = Camera.main;
             _initialConfiguration.SetDefaults();
@@ -173,7 +173,7 @@ namespace ImGuiNET.Unity
 
         void Update()
         {
-			ImGuiUn.SetUnityContext(_context);
+            ImGuiUn.SetUnityContext(_context);
             ImGuiIOPtr io = ImGui.GetIO();
 
             s_prepareFramePerfMarker.Begin(this);
@@ -187,6 +187,7 @@ namespace ImGuiNET.Unity
             {
                 if (_doGlobalLayout)
                     ImGuiUn.DoLayout();   // ImGuiUn.Layout: global handlers
+                
                 Layout?.Invoke();     // this.Layout: handlers specific to this instance
             }
             finally

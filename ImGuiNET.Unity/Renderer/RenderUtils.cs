@@ -30,26 +30,26 @@ namespace ImGuiNET.Unity
         public static bool IsUsingURP()
         {
             var currentRP = GraphicsSettings.currentRenderPipeline;
-			
-			#if HAS_URP
-				return currentRP is UniversalRenderPipelineAsset;
-			#else
-				return false;
-			#endif
+            
+            #if HAS_URP
+                return currentRP is UniversalRenderPipelineAsset;
+            #else
+                return false;
+            #endif
         }
 
-		public static bool IsUsingHDRP()
-		{
-			var currentRP = GraphicsSettings.currentRenderPipeline;
+        public static bool IsUsingHDRP()
+        {
+            var currentRP = GraphicsSettings.currentRenderPipeline;
 
-			#if HAS_HDRP
-				return currentRP is HDRenderPipelineAsset;
-			#else
-				return false;
-			#endif
-		}
+            #if HAS_HDRP
+                return currentRP is HDRenderPipelineAsset;
+            #else
+                return false;
+            #endif
+        }
 
-		public static CommandBuffer GetCommandBuffer(string name)
+        public static CommandBuffer GetCommandBuffer(string name)
         {
 #if HAS_URP || HAS_HDRP
             return CommandBufferPool.Get(name);
@@ -61,7 +61,7 @@ namespace ImGuiNET.Unity
         public static void ReleaseCommandBuffer(CommandBuffer cmd)
         {
 #if HAS_URP || HAS_HDRP
-			CommandBufferPool.Release(cmd);
+            CommandBufferPool.Release(cmd);
 #else
             cmd.Release();
 #endif
