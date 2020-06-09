@@ -35,6 +35,28 @@
         }
     }
 
+        // shader for HD render pipeline
+    SubShader
+    {
+        Tags { "RenderType" = "Transparent" "RenderPipeline" = "HDRenderPipeline" "PreviewType" = "Plane" }
+        LOD 100
+
+        Lighting Off
+        Cull Off ZWrite On ZTest Always
+        Blend SrcAlpha OneMinusSrcAlpha
+
+        Pass
+        {
+            Name "DEARIMGUI HDRP"
+
+            HLSLPROGRAM
+            #pragma vertex ImGuiPassVertex
+            #pragma fragment ImGuiPassFrag
+            #include "Packages/com.realgames.dear-imgui/Resources/Shaders/PassesHD.hlsl"
+            ENDHLSL
+        }
+    }
+
     // shader for builtin rendering
     SubShader
     {
