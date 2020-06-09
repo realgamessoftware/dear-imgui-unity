@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.Rendering;
 using Unity.Profiling;
-using System.Reflection;
 
 #if HAS_HDRP
 using UnityEngine.Rendering.HighDefinition;
@@ -53,11 +52,7 @@ namespace ImGuiNET.Unity
         static readonly ProfilerMarker s_layoutPerfMarker = new ProfilerMarker("DearImGui.Layout");
         static readonly ProfilerMarker s_drawListPerfMarker = new ProfilerMarker("DearImGui.RenderDrawLists");
 
-#if HAS_HDRP
-		MethodInfo BaseRender;
-#endif
-
-		void Awake()
+	    void Awake()
         {
             _context = ImGuiUn.CreateUnityContext();
         }
