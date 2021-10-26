@@ -33,7 +33,7 @@ namespace ImGuiNET.Unity
         const MeshUpdateFlags NoMeshChecks = MeshUpdateFlags.DontNotifyMeshUsers | MeshUpdateFlags.DontRecalculateBounds
                                            | MeshUpdateFlags.DontResetBoneBounds | MeshUpdateFlags.DontValidateIndices;
         int _prevSubMeshCount = 1;  // number of sub meshes used previously
-
+        List<SubMeshDescriptor> descriptors = new List<SubMeshDescriptor>();
         static readonly ProfilerMarker s_updateMeshPerfMarker = new ProfilerMarker("DearImGui.RendererMesh.UpdateMesh");
         static readonly ProfilerMarker s_createDrawComandsPerfMarker = new ProfilerMarker("DearImGui.RendererMesh.CreateDrawCommands");
 
@@ -97,7 +97,7 @@ namespace ImGuiNET.Unity
             // upload data into mesh
             int vtxOf = 0;
             int idxOf = 0;
-            List<SubMeshDescriptor> descriptors = new List<SubMeshDescriptor>();
+            
             for (int n = 0, nMax = drawData.CmdListsCount; n < nMax; ++n)
             {
                 ImDrawListPtr drawList = drawData.CmdListsRange[n];
@@ -113,7 +113,7 @@ namespace ImGuiNET.Unity
                 // upload vertex/index data
                 _mesh.SetVertexBufferData(vtxArray, 0, vtxOf, vtxArray.Length, 0, NoMeshChecks);
                 _mesh.SetIndexBufferData (idxArray, 0, idxOf, idxArray.Length,    NoMeshChecks);
-
+                descriptors.Clear();
                 // define subMeshes
                 for (int i = 0, iMax = drawList.CmdBuffer.Size; i < iMax; ++i)
                 {
