@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -34,22 +34,22 @@ namespace ImGuiNET
         public static implicit operator ImFont* (ImFontPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImFontPtr(IntPtr nativePtr) => new ImFontPtr(nativePtr);
         public ImVector<float> IndexAdvanceX => new ImVector<float>(NativePtr->IndexAdvanceX);
-        public ref float FallbackAdvanceX => ref Unsafe.AsRef<float>(&NativePtr->FallbackAdvanceX);
-        public ref float FontSize => ref Unsafe.AsRef<float>(&NativePtr->FontSize);
+        public ref float FallbackAdvanceX => ref UnsafeUtility.AsRef<float>(&NativePtr->FallbackAdvanceX);
+        public ref float FontSize => ref UnsafeUtility.AsRef<float>(&NativePtr->FontSize);
         public ImVector<ushort> IndexLookup => new ImVector<ushort>(NativePtr->IndexLookup);
-        public ImPtrVector<ImFontGlyphPtr> Glyphs => new ImPtrVector<ImFontGlyphPtr>(NativePtr->Glyphs, Unsafe.SizeOf<ImFontGlyph>());
+        public ImPtrVector<ImFontGlyphPtr> Glyphs => new ImPtrVector<ImFontGlyphPtr>(NativePtr->Glyphs, UnsafeUtility.SizeOf<ImFontGlyph>());
         public ImFontGlyphPtr FallbackGlyph => new ImFontGlyphPtr(NativePtr->FallbackGlyph);
-        public ref Vector2 DisplayOffset => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplayOffset);
+        public ref Vector2 DisplayOffset => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->DisplayOffset);
         public ImFontAtlasPtr ContainerAtlas => new ImFontAtlasPtr(NativePtr->ContainerAtlas);
         public ImFontConfigPtr ConfigData => new ImFontConfigPtr(NativePtr->ConfigData);
-        public ref short ConfigDataCount => ref Unsafe.AsRef<short>(&NativePtr->ConfigDataCount);
-        public ref ushort FallbackChar => ref Unsafe.AsRef<ushort>(&NativePtr->FallbackChar);
-        public ref ushort EllipsisChar => ref Unsafe.AsRef<ushort>(&NativePtr->EllipsisChar);
-        public ref bool DirtyLookupTables => ref Unsafe.AsRef<bool>(&NativePtr->DirtyLookupTables);
-        public ref float Scale => ref Unsafe.AsRef<float>(&NativePtr->Scale);
-        public ref float Ascent => ref Unsafe.AsRef<float>(&NativePtr->Ascent);
-        public ref float Descent => ref Unsafe.AsRef<float>(&NativePtr->Descent);
-        public ref int MetricsTotalSurface => ref Unsafe.AsRef<int>(&NativePtr->MetricsTotalSurface);
+        public ref short ConfigDataCount => ref UnsafeUtility.AsRef<short>(&NativePtr->ConfigDataCount);
+        public ref ushort FallbackChar => ref UnsafeUtility.AsRef<ushort>(&NativePtr->FallbackChar);
+        public ref ushort EllipsisChar => ref UnsafeUtility.AsRef<ushort>(&NativePtr->EllipsisChar);
+        public ref bool DirtyLookupTables => ref UnsafeUtility.AsRef<bool>(&NativePtr->DirtyLookupTables);
+        public ref float Scale => ref UnsafeUtility.AsRef<float>(&NativePtr->Scale);
+        public ref float Ascent => ref UnsafeUtility.AsRef<float>(&NativePtr->Ascent);
+        public ref float Descent => ref UnsafeUtility.AsRef<float>(&NativePtr->Descent);
+        public ref int MetricsTotalSurface => ref UnsafeUtility.AsRef<int>(&NativePtr->MetricsTotalSurface);
         public void AddGlyph(ushort c, float x0, float y0, float x1, float y1, float u0, float v0, float u1, float v1, float advance_x)
         {
             ImGuiNative.ImFont_AddGlyph(NativePtr, c, x0, y0, x1, y1, u0, v0, u1, v1, advance_x);

@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -19,8 +19,8 @@ namespace ImGuiNET
         public static implicit operator ImDrawVertPtr(ImDrawVert* nativePtr) => new ImDrawVertPtr(nativePtr);
         public static implicit operator ImDrawVert* (ImDrawVertPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImDrawVertPtr(IntPtr nativePtr) => new ImDrawVertPtr(nativePtr);
-        public ref Vector2 pos => ref Unsafe.AsRef<Vector2>(&NativePtr->pos);
-        public ref Vector2 uv => ref Unsafe.AsRef<Vector2>(&NativePtr->uv);
-        public ref uint col => ref Unsafe.AsRef<uint>(&NativePtr->col);
+        public ref Vector2 pos => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->pos);
+        public ref Vector2 uv => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->uv);
+        public ref uint col => ref UnsafeUtility.AsRef<uint>(&NativePtr->col);
     }
 }

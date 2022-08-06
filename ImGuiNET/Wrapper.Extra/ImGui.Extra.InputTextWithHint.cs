@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
 using System.Text;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -91,8 +91,8 @@ namespace ImGuiNET
             }
             Util.GetUtf8(input, utf8InputBytes, inputBufSize);
             uint clearBytesCount = (uint)(inputBufSize - utf8InputByteCount);
-            Unsafe.InitBlockUnaligned(utf8InputBytes + utf8InputByteCount, 0, clearBytesCount);
-            Unsafe.CopyBlock(originalUtf8InputBytes, utf8InputBytes, (uint)inputBufSize);
+            UnsafeUtility.MemSet(utf8InputBytes + utf8InputByteCount, 0, clearBytesCount);
+            UnsafeUtility.MemCpy(originalUtf8InputBytes, utf8InputBytes, (uint)inputBufSize);
 
             byte result = ImGuiNative.igInputTextWithHint(
                 utf8LabelBytes,

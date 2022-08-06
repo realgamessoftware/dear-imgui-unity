@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -19,9 +19,9 @@ namespace ImGuiNET
         public static implicit operator ImDrawListSplitterPtr(ImDrawListSplitter* nativePtr) => new ImDrawListSplitterPtr(nativePtr);
         public static implicit operator ImDrawListSplitter* (ImDrawListSplitterPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImDrawListSplitterPtr(IntPtr nativePtr) => new ImDrawListSplitterPtr(nativePtr);
-        public ref int _Current => ref Unsafe.AsRef<int>(&NativePtr->_Current);
-        public ref int _Count => ref Unsafe.AsRef<int>(&NativePtr->_Count);
-        public ImPtrVector<ImDrawChannelPtr> _Channels => new ImPtrVector<ImDrawChannelPtr>(NativePtr->_Channels, Unsafe.SizeOf<ImDrawChannel>());
+        public ref int _Current => ref UnsafeUtility.AsRef<int>(&NativePtr->_Current);
+        public ref int _Count => ref UnsafeUtility.AsRef<int>(&NativePtr->_Count);
+        public ImPtrVector<ImDrawChannelPtr> _Channels => new ImPtrVector<ImDrawChannelPtr>(NativePtr->_Channels, UnsafeUtility.SizeOf<ImDrawChannel>());
         public void Clear()
         {
             ImGuiNative.ImDrawListSplitter_Clear(NativePtr);
