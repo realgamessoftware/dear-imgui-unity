@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -30,20 +30,20 @@ namespace ImGuiNET
         public static implicit operator ImDrawListPtr(ImDrawList* nativePtr) => new ImDrawListPtr(nativePtr);
         public static implicit operator ImDrawList* (ImDrawListPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImDrawListPtr(IntPtr nativePtr) => new ImDrawListPtr(nativePtr);
-        public ImPtrVector<ImDrawCmdPtr> CmdBuffer => new ImPtrVector<ImDrawCmdPtr>(NativePtr->CmdBuffer, Unsafe.SizeOf<ImDrawCmd>());
+        public ImPtrVector<ImDrawCmdPtr> CmdBuffer => new ImPtrVector<ImDrawCmdPtr>(NativePtr->CmdBuffer, UnsafeUtility.SizeOf<ImDrawCmd>());
         public ImVector<ushort> IdxBuffer => new ImVector<ushort>(NativePtr->IdxBuffer);
-        public ImPtrVector<ImDrawVertPtr> VtxBuffer => new ImPtrVector<ImDrawVertPtr>(NativePtr->VtxBuffer, Unsafe.SizeOf<ImDrawVert>());
-        public ref ImDrawListFlags Flags => ref Unsafe.AsRef<ImDrawListFlags>(&NativePtr->Flags);
-        public ref IntPtr _Data => ref Unsafe.AsRef<IntPtr>(&NativePtr->_Data);
+        public ImPtrVector<ImDrawVertPtr> VtxBuffer => new ImPtrVector<ImDrawVertPtr>(NativePtr->VtxBuffer, UnsafeUtility.SizeOf<ImDrawVert>());
+        public ref ImDrawListFlags Flags => ref UnsafeUtility.AsRef<ImDrawListFlags>(&NativePtr->Flags);
+        public ref IntPtr _Data => ref UnsafeUtility.AsRef<IntPtr>(&NativePtr->_Data);
         public NullTerminatedString _OwnerName => new NullTerminatedString(NativePtr->_OwnerName);
-        public ref uint _VtxCurrentOffset => ref Unsafe.AsRef<uint>(&NativePtr->_VtxCurrentOffset);
-        public ref uint _VtxCurrentIdx => ref Unsafe.AsRef<uint>(&NativePtr->_VtxCurrentIdx);
+        public ref uint _VtxCurrentOffset => ref UnsafeUtility.AsRef<uint>(&NativePtr->_VtxCurrentOffset);
+        public ref uint _VtxCurrentIdx => ref UnsafeUtility.AsRef<uint>(&NativePtr->_VtxCurrentIdx);
         public ImDrawVertPtr _VtxWritePtr => new ImDrawVertPtr(NativePtr->_VtxWritePtr);
         public IntPtr _IdxWritePtr { get => (IntPtr)NativePtr->_IdxWritePtr; set => NativePtr->_IdxWritePtr = (ushort*)value; }
         public ImVector<Vector4> _ClipRectStack => new ImVector<Vector4>(NativePtr->_ClipRectStack);
         public ImVector<IntPtr> _TextureIdStack => new ImVector<IntPtr>(NativePtr->_TextureIdStack);
         public ImVector<Vector2> _Path => new ImVector<Vector2>(NativePtr->_Path);
-        public ref ImDrawListSplitter _Splitter => ref Unsafe.AsRef<ImDrawListSplitter>(&NativePtr->_Splitter);
+        public ref ImDrawListSplitter _Splitter => ref UnsafeUtility.AsRef<ImDrawListSplitter>(&NativePtr->_Splitter);
         public void AddBezierCurve(Vector2 p1, Vector2 p2, Vector2 p3, Vector2 p4, uint col, float thickness)
         {
             int num_segments = 0;

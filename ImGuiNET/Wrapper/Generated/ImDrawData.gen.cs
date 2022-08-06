@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -24,14 +24,14 @@ namespace ImGuiNET
         public static implicit operator ImDrawDataPtr(ImDrawData* nativePtr) => new ImDrawDataPtr(nativePtr);
         public static implicit operator ImDrawData* (ImDrawDataPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImDrawDataPtr(IntPtr nativePtr) => new ImDrawDataPtr(nativePtr);
-        public ref bool Valid => ref Unsafe.AsRef<bool>(&NativePtr->Valid);
+        public ref bool Valid => ref UnsafeUtility.AsRef<bool>(&NativePtr->Valid);
         public IntPtr CmdLists { get => (IntPtr)NativePtr->CmdLists; set => NativePtr->CmdLists = (ImDrawList**)value; }
-        public ref int CmdListsCount => ref Unsafe.AsRef<int>(&NativePtr->CmdListsCount);
-        public ref int TotalIdxCount => ref Unsafe.AsRef<int>(&NativePtr->TotalIdxCount);
-        public ref int TotalVtxCount => ref Unsafe.AsRef<int>(&NativePtr->TotalVtxCount);
-        public ref Vector2 DisplayPos => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplayPos);
-        public ref Vector2 DisplaySize => ref Unsafe.AsRef<Vector2>(&NativePtr->DisplaySize);
-        public ref Vector2 FramebufferScale => ref Unsafe.AsRef<Vector2>(&NativePtr->FramebufferScale);
+        public ref int CmdListsCount => ref UnsafeUtility.AsRef<int>(&NativePtr->CmdListsCount);
+        public ref int TotalIdxCount => ref UnsafeUtility.AsRef<int>(&NativePtr->TotalIdxCount);
+        public ref int TotalVtxCount => ref UnsafeUtility.AsRef<int>(&NativePtr->TotalVtxCount);
+        public ref Vector2 DisplayPos => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->DisplayPos);
+        public ref Vector2 DisplaySize => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->DisplaySize);
+        public ref Vector2 FramebufferScale => ref UnsafeUtility.AsRef<Vector2>(&NativePtr->FramebufferScale);
         public void Clear()
         {
             ImGuiNative.ImDrawData_Clear(NativePtr);

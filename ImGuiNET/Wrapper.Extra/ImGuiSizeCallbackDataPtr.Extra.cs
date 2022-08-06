@@ -1,4 +1,4 @@
-using System.Runtime.CompilerServices;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -6,7 +6,7 @@ namespace ImGuiNET
     {
         public ImGuiSizeCallbackDataPtr(ref ImGuiSizeCallbackData data)
         {
-            NativePtr = (ImGuiSizeCallbackData*)Unsafe.AsPointer(ref data);
+            NativePtr = (ImGuiSizeCallbackData*)UnsafeUtility.AddressOf(ref data);
         }
     }
 }
