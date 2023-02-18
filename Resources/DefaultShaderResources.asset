@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: DefaultShaderResources
   m_EditorClassIdentifier: 
   shaders:
-    mesh: {fileID: 4800000, guid: 4672393d0e55548419ce9efb914275d9, type: 3}
-    procedural: {fileID: 4800000, guid: 9a6416cb7d14ac3408ac38188ae47cce, type: 3}
+    mesh: {fileID: 4800000, guid: 9c9a5a09c11715644a69fc57aa7beecc, type: 3}
+    procedural: {fileID: 4800000, guid: be8fea7817e28c742aa4b0ec01cacd7d, type: 3}
   propertyNames:
     tex: _Tex
     vertices: _Vertices

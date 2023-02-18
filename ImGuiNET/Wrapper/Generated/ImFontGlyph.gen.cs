@@ -1,13 +1,15 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
+using System.Text;
 
 namespace ImGuiNET
 {
     public unsafe partial struct ImFontGlyph
     {
-        public ushort Codepoint;
+        public uint Colored;
+        public uint Visible;
+        public uint Codepoint;
         public float AdvanceX;
         public float X0;
         public float Y0;
@@ -26,15 +28,17 @@ namespace ImGuiNET
         public static implicit operator ImFontGlyphPtr(ImFontGlyph* nativePtr) => new ImFontGlyphPtr(nativePtr);
         public static implicit operator ImFontGlyph* (ImFontGlyphPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImFontGlyphPtr(IntPtr nativePtr) => new ImFontGlyphPtr(nativePtr);
-        public ref ushort Codepoint => ref Unsafe.AsRef<ushort>(&NativePtr->Codepoint);
-        public ref float AdvanceX => ref Unsafe.AsRef<float>(&NativePtr->AdvanceX);
-        public ref float X0 => ref Unsafe.AsRef<float>(&NativePtr->X0);
-        public ref float Y0 => ref Unsafe.AsRef<float>(&NativePtr->Y0);
-        public ref float X1 => ref Unsafe.AsRef<float>(&NativePtr->X1);
-        public ref float Y1 => ref Unsafe.AsRef<float>(&NativePtr->Y1);
-        public ref float U0 => ref Unsafe.AsRef<float>(&NativePtr->U0);
-        public ref float V0 => ref Unsafe.AsRef<float>(&NativePtr->V0);
-        public ref float U1 => ref Unsafe.AsRef<float>(&NativePtr->U1);
-        public ref float V1 => ref Unsafe.AsRef<float>(&NativePtr->V1);
+        public ref uint Colored => ref UnsafeUtility.AsRef<uint>(&NativePtr->Colored);
+        public ref uint Visible => ref UnsafeUtility.AsRef<uint>(&NativePtr->Visible);
+        public ref uint Codepoint => ref UnsafeUtility.AsRef<uint>(&NativePtr->Codepoint);
+        public ref float AdvanceX => ref UnsafeUtility.AsRef<float>(&NativePtr->AdvanceX);
+        public ref float X0 => ref UnsafeUtility.AsRef<float>(&NativePtr->X0);
+        public ref float Y0 => ref UnsafeUtility.AsRef<float>(&NativePtr->Y0);
+        public ref float X1 => ref UnsafeUtility.AsRef<float>(&NativePtr->X1);
+        public ref float Y1 => ref UnsafeUtility.AsRef<float>(&NativePtr->Y1);
+        public ref float U0 => ref UnsafeUtility.AsRef<float>(&NativePtr->U0);
+        public ref float V0 => ref UnsafeUtility.AsRef<float>(&NativePtr->V0);
+        public ref float U1 => ref UnsafeUtility.AsRef<float>(&NativePtr->U1);
+        public ref float V1 => ref UnsafeUtility.AsRef<float>(&NativePtr->V1);
     }
 }

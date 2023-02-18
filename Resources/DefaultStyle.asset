@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Alpha: 1
   WindowPadding: {x: 8, y: 8}
-  WindowRounding: 7
-  WindowBorderSize: 1
+  WindowRounding: 4
+  WindowBorderSize: 2
   WindowMinSize: {x: 32, y: 32}
   WindowTitleAlign: {x: 0, y: 0.5}
   WindowMenuButtonPosition: 0
@@ -50,9 +50,9 @@ MonoBehaviour:
   Colors:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  - {r: 0.06, g: 0.06, b: 0.06, a: 0.94}
+  - {r: 0.06, g: 0.06, b: 0.06, a: 0.69411767}
   - {r: 0, g: 0, b: 0, a: 0}
-  - {r: 0.08, g: 0.08, b: 0.08, a: 0.94}
+  - {r: 0.08, g: 0.08, b: 0.08, a: 0.9411765}
   - {r: 0.43, g: 0.43, b: 0.5, a: 0.5}
   - {r: 0, g: 0, b: 0, a: 0}
   - {r: 0.16, g: 0.29, b: 0.48, a: 0.54}

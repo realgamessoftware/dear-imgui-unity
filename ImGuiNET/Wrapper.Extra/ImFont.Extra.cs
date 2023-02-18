@@ -1,5 +1,6 @@
 using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -26,7 +27,8 @@ namespace ImGuiNET
             }
             else { native_text = null; }
             byte* native_text_end = null;
-            Vector2 ret = ImGuiNative.ImFont_CalcTextSizeA(NativePtr, font_size, max_width, wrap_width, native_text, native_text_end, (byte**)0);
+            Vector2 ret;
+            ImGuiNative.ImFont_CalcTextSizeA(&ret, NativePtr, font_size, max_width, wrap_width, native_text, native_text_end, (byte**)0);
             if (text_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_text);
@@ -44,7 +46,8 @@ namespace ImGuiNET
             int native_text_offset = Encoding.UTF8.GetBytes(&ch, 1, native_text, text_byteCount);
             native_text[native_text_offset] = 0;
             byte* native_text_end = null;
-            Vector2 ret = ImGuiNative.ImFont_CalcTextSizeA(NativePtr, font_size, max_width, wrap_width, native_text, native_text_end, (byte**)0);
+            Vector2 ret;
+            ImGuiNative.ImFont_CalcTextSizeA(&ret, NativePtr, font_size, max_width, wrap_width, native_text, native_text_end, (byte**)0);
             return ret;
         }
 

@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
+using System.Text;
 
 namespace ImGuiNET
 {
@@ -20,19 +20,19 @@ namespace ImGuiNET
         public static implicit operator ImGuiTextFilter* (ImGuiTextFilterPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiTextFilterPtr(IntPtr nativePtr) => new ImGuiTextFilterPtr(nativePtr);
         public RangeAccessor<byte> InputBuf => new RangeAccessor<byte>(NativePtr->InputBuf, 256);
-        public ImPtrVector<ImGuiTextRangePtr> Filters => new ImPtrVector<ImGuiTextRangePtr>(NativePtr->Filters, Unsafe.SizeOf<ImGuiTextRange>());
-        public ref int CountGrep => ref Unsafe.AsRef<int>(&NativePtr->CountGrep);
+        public ImPtrVector<ImGuiTextRangePtr> Filters => new ImPtrVector<ImGuiTextRangePtr>(NativePtr->Filters, UnsafeUtility.SizeOf<ImGuiTextRange>());
+        public ref int CountGrep => ref UnsafeUtility.AsRef<int>(&NativePtr->CountGrep);
         public void Build()
         {
-            ImGuiNative.ImGuiTextFilter_Build(NativePtr);
+            ImGuiNative.ImGuiTextFilter_Build((ImGuiTextFilter*)(NativePtr));
         }
         public void Clear()
         {
-            ImGuiNative.ImGuiTextFilter_Clear(NativePtr);
+            ImGuiNative.ImGuiTextFilter_Clear((ImGuiTextFilter*)(NativePtr));
         }
         public void Destroy()
         {
-            ImGuiNative.ImGuiTextFilter_destroy(NativePtr);
+            ImGuiNative.ImGuiTextFilter_destroy((ImGuiTextFilter*)(NativePtr));
         }
         public bool Draw()
         {
@@ -51,7 +51,7 @@ namespace ImGuiNET
                 int native_label_offset = Util.GetUtf8("Filter(inc,-exc)", native_label, label_byteCount);
                 native_label[native_label_offset] = 0;
             float width = 0.0f;
-            byte ret = ImGuiNative.ImGuiTextFilter_Draw(NativePtr, native_label, width);
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -79,7 +79,7 @@ namespace ImGuiNET
             }
             else { native_label = null; }
             float width = 0.0f;
-            byte ret = ImGuiNative.ImGuiTextFilter_Draw(NativePtr, native_label, width);
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -106,7 +106,7 @@ namespace ImGuiNET
                 native_label[native_label_offset] = 0;
             }
             else { native_label = null; }
-            byte ret = ImGuiNative.ImGuiTextFilter_Draw(NativePtr, native_label, width);
+            byte ret = ImGuiNative.ImGuiTextFilter_Draw((ImGuiTextFilter*)(NativePtr), native_label, width);
             if (label_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_label);
@@ -115,7 +115,7 @@ namespace ImGuiNET
         }
         public bool IsActive()
         {
-            byte ret = ImGuiNative.ImGuiTextFilter_IsActive(NativePtr);
+            byte ret = ImGuiNative.ImGuiTextFilter_IsActive((ImGuiTextFilter*)(NativePtr));
             return ret != 0;
         }
         public bool PassFilter(string text)
@@ -139,7 +139,7 @@ namespace ImGuiNET
             }
             else { native_text = null; }
             byte* native_text_end = null;
-            byte ret = ImGuiNative.ImGuiTextFilter_PassFilter(NativePtr, native_text, native_text_end);
+            byte ret = ImGuiNative.ImGuiTextFilter_PassFilter((ImGuiTextFilter*)(NativePtr), native_text, native_text_end);
             if (text_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_text);

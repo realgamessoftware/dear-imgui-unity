@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -8,19 +9,19 @@ namespace ImGuiNET
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe Color32 ToColor32(this uint rgba)
         {
-            return Unsafe.AsRef<Color32>(&rgba);
+            return UnsafeUtility.AsRef<Color32>(&rgba);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe Color ToColor(this uint rgba)
         {
-            return Unsafe.AsRef<Color32>(&rgba); // implicit conversion to Color
+            return UnsafeUtility.AsRef<Color32>(&rgba); // implicit conversion to Color
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe uint ToUint(this Color32 c32)
         {
-            return Unsafe.AsRef<uint>(&c32);
+            return UnsafeUtility.AsRef<uint>(&c32);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

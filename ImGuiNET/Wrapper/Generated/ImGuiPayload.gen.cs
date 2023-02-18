@@ -1,7 +1,7 @@
 using System;
-using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
+using Unity.Collections.LowLevel.Unsafe;
+using System.Text;
 
 namespace ImGuiNET
 {
@@ -25,20 +25,20 @@ namespace ImGuiNET
         public static implicit operator ImGuiPayload* (ImGuiPayloadPtr wrappedPtr) => wrappedPtr.NativePtr;
         public static implicit operator ImGuiPayloadPtr(IntPtr nativePtr) => new ImGuiPayloadPtr(nativePtr);
         public IntPtr Data { get => (IntPtr)NativePtr->Data; set => NativePtr->Data = (void*)value; }
-        public ref int DataSize => ref Unsafe.AsRef<int>(&NativePtr->DataSize);
-        public ref uint SourceId => ref Unsafe.AsRef<uint>(&NativePtr->SourceId);
-        public ref uint SourceParentId => ref Unsafe.AsRef<uint>(&NativePtr->SourceParentId);
-        public ref int DataFrameCount => ref Unsafe.AsRef<int>(&NativePtr->DataFrameCount);
+        public ref int DataSize => ref UnsafeUtility.AsRef<int>(&NativePtr->DataSize);
+        public ref uint SourceId => ref UnsafeUtility.AsRef<uint>(&NativePtr->SourceId);
+        public ref uint SourceParentId => ref UnsafeUtility.AsRef<uint>(&NativePtr->SourceParentId);
+        public ref int DataFrameCount => ref UnsafeUtility.AsRef<int>(&NativePtr->DataFrameCount);
         public RangeAccessor<byte> DataType => new RangeAccessor<byte>(NativePtr->DataType, 33);
-        public ref bool Preview => ref Unsafe.AsRef<bool>(&NativePtr->Preview);
-        public ref bool Delivery => ref Unsafe.AsRef<bool>(&NativePtr->Delivery);
+        public ref bool Preview => ref UnsafeUtility.AsRef<bool>(&NativePtr->Preview);
+        public ref bool Delivery => ref UnsafeUtility.AsRef<bool>(&NativePtr->Delivery);
         public void Clear()
         {
-            ImGuiNative.ImGuiPayload_Clear(NativePtr);
+            ImGuiNative.ImGuiPayload_Clear((ImGuiPayload*)(NativePtr));
         }
         public void Destroy()
         {
-            ImGuiNative.ImGuiPayload_destroy(NativePtr);
+            ImGuiNative.ImGuiPayload_destroy((ImGuiPayload*)(NativePtr));
         }
         public bool IsDataType(string type)
         {
@@ -60,7 +60,7 @@ namespace ImGuiNET
                 native_type[native_type_offset] = 0;
             }
             else { native_type = null; }
-            byte ret = ImGuiNative.ImGuiPayload_IsDataType(NativePtr, native_type);
+            byte ret = ImGuiNative.ImGuiPayload_IsDataType((ImGuiPayload*)(NativePtr), native_type);
             if (type_byteCount > Util.StackAllocationSizeLimit)
             {
                 Util.Free(native_type);
@@ -69,12 +69,12 @@ namespace ImGuiNET
         }
         public bool IsDelivery()
         {
-            byte ret = ImGuiNative.ImGuiPayload_IsDelivery(NativePtr);
+            byte ret = ImGuiNative.ImGuiPayload_IsDelivery((ImGuiPayload*)(NativePtr));
             return ret != 0;
         }
         public bool IsPreview()
         {
-            byte ret = ImGuiNative.ImGuiPayload_IsPreview(NativePtr);
+            byte ret = ImGuiNative.ImGuiPayload_IsPreview((ImGuiPayload*)(NativePtr));
             return ret != 0;
         }
     }

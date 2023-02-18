@@ -5,7 +5,7 @@
 #ifndef UNITY_COLORSPACE_GAMMA
 #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
 #endif
-#include "Packages/com.realgames.dear-imgui/Resources/Shaders/Common.hlsl"
+#include "Common.hlsl"
 
 TEXTURE2D(_Tex);
 SAMPLER(sampler_Tex);

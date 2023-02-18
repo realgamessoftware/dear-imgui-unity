@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Runtime.CompilerServices;
+using Unity.Collections.LowLevel.Unsafe;
 
 namespace ImGuiNET
 {
@@ -9,18 +9,18 @@ namespace ImGuiNET
         public readonly int Capacity;
         public readonly IntPtr Data;
 
-        public ref T Ref<T>(int index)
+        public ref T Ref<T>(int index) where T : struct
         {
-            return ref Unsafe.AsRef<T>((byte*)Data + index * Unsafe.SizeOf<T>());
+            return ref UnsafeUtility.AsRef<T>((byte*)Data + index * UnsafeUtility.SizeOf<T>());
         }
 
-        public IntPtr Address<T>(int index)
+        public IntPtr Address<T>(int index) where T : struct
         {
-            return (IntPtr)((byte*)Data + index * Unsafe.SizeOf<T>());
+            return (IntPtr)((byte*)Data + index * UnsafeUtility.SizeOf<T>());
         }
     }
 
-    public unsafe struct ImVector<T>
+    public unsafe struct ImVector<T> where T : struct
     {
         public readonly int Size;
         public readonly int Capacity;
@@ -40,7 +40,7 @@ namespace ImGuiNET
             Data = data;
         }
 
-        public ref T this[int index] => ref Unsafe.AsRef<T>((byte*)Data + index * Unsafe.SizeOf<T>());
+        public ref T this[int index] => ref UnsafeUtility.AsRef<T>((byte*)Data + index * UnsafeUtility.SizeOf<T>());
     }
 
     public unsafe struct ImPtrVector<T>
@@ -67,7 +67,7 @@ namespace ImGuiNET
             get
             {
                 byte* address = (byte*)Data + index * _stride;
-                T ret = Unsafe.Read<T>(&address);
+                T ret = UnsafeUtility.ReadArrayElement<T>(&address, 0);
                 return ret;
             }
         }
