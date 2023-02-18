@@ -56,12 +56,15 @@ namespace ImGuiNET.Unity
             if (!_spriteData.TryGetValue(sprite, out SpriteInfo sprInfo))
             {
                 Vector2[] uvs = sprite.uv; // allocates
+
+                Debug.Assert(uvs.Length == 4, $"Sprite {sprite.name} must be set to Full Rect");
+
                 _spriteData[sprite] = sprInfo = new SpriteInfo
                 {
                     texture = sprite.texture,
                     size = sprite.rect.size,
-                    uv0 = new Vector2(uvs[0].x, 1f - uvs[0].y),
-                    uv1 = new Vector2(uvs[1].x, 1f - uvs[1].y),
+                    uv0 = new Vector2(uvs[0].x, 1.0f - uvs[0].y),
+                    uv1 = new Vector2(uvs[1].x, 1.0f - uvs[2].y),
                 };
             }
             return sprInfo;

@@ -4,7 +4,8 @@ namespace ImGuiNET
     public enum ImFontAtlasFlags
     {
         None = 0,
-        NoPowerOfTwoHeight = 1 << 0,
-        NoMouseCursors = 1 << 1,
+        NoPowerOfTwoHeight = 1,
+        NoMouseCursors = 2,
+        NoBakedLines = 4,
     }
 }

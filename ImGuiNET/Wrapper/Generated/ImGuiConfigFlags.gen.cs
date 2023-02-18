@@ -4,13 +4,17 @@ namespace ImGuiNET
     public enum ImGuiConfigFlags
     {
         None = 0,
-        NavEnableKeyboard = 1 << 0,
-        NavEnableGamepad = 1 << 1,
-        NavEnableSetMousePos = 1 << 2,
-        NavNoCaptureKeyboard = 1 << 3,
-        NoMouse = 1 << 4,
-        NoMouseCursorChange = 1 << 5,
-        IsSRGB = 1 << 20,
-        IsTouchScreen = 1 << 21,
+        NavEnableKeyboard = 1,
+        NavEnableGamepad = 2,
+        NavEnableSetMousePos = 4,
+        NavNoCaptureKeyboard = 8,
+        NoMouse = 16,
+        NoMouseCursorChange = 32,
+        DockingEnable = 64,
+        ViewportsEnable = 1024,
+        DpiEnableScaleViewports = 16384,
+        DpiEnableScaleFonts = 32768,
+        IsSRGB = 1048576,
+        IsTouchScreen = 2097152,
     }
 }

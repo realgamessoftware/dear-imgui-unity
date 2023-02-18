@@ -4,8 +4,9 @@ namespace ImGuiNET
     public enum ImDrawListFlags
     {
         None = 0,
-        AntiAliasedLines = 1 << 0,
-        AntiAliasedFill = 1 << 1,
-        AllowVtxOffset = 1 << 2,
+        AntiAliasedLines = 1,
+        AntiAliasedLinesUseTex = 2,
+        AntiAliasedFill = 4,
+        AllowVtxOffset = 8,
     }
 }

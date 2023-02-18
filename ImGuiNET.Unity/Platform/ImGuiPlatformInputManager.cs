@@ -2,6 +2,10 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 
+#if ENABLE_INPUT_SYSTEM
+using UnityEngine.InputSystem;
+#endif
+
 namespace ImGuiNET.Unity
 {
     // Implemented features:
@@ -95,33 +99,52 @@ namespace ImGuiNET.Unity
         {
             _mainKeys = new int[] {
                 // map and store new keys by assigning io.KeyMap and setting value of array
-                io.KeyMap[(int)ImGuiKey.Tab        ] = (int)KeyCode.Tab,
-                io.KeyMap[(int)ImGuiKey.LeftArrow  ] = (int)KeyCode.LeftArrow,
-                io.KeyMap[(int)ImGuiKey.RightArrow ] = (int)KeyCode.RightArrow,
-                io.KeyMap[(int)ImGuiKey.UpArrow    ] = (int)KeyCode.UpArrow,
-                io.KeyMap[(int)ImGuiKey.DownArrow  ] = (int)KeyCode.DownArrow,
-                io.KeyMap[(int)ImGuiKey.PageUp     ] = (int)KeyCode.PageUp,
-                io.KeyMap[(int)ImGuiKey.PageDown   ] = (int)KeyCode.PageDown,
-                io.KeyMap[(int)ImGuiKey.Home       ] = (int)KeyCode.Home,
-                io.KeyMap[(int)ImGuiKey.End        ] = (int)KeyCode.End,
-                io.KeyMap[(int)ImGuiKey.Insert     ] = (int)KeyCode.Insert,
-                io.KeyMap[(int)ImGuiKey.Delete     ] = (int)KeyCode.Delete,
-                io.KeyMap[(int)ImGuiKey.Backspace  ] = (int)KeyCode.Backspace,
-                io.KeyMap[(int)ImGuiKey.Space      ] = (int)KeyCode.Space,
-                io.KeyMap[(int)ImGuiKey.Enter      ] = (int)KeyCode.Return,
-                io.KeyMap[(int)ImGuiKey.Escape     ] = (int)KeyCode.Escape,
-                io.KeyMap[(int)ImGuiKey.KeyPadEnter] = (int)KeyCode.KeypadEnter,
-                io.KeyMap[(int)ImGuiKey.A          ] = (int)KeyCode.A,           // for text edit CTRL+A: select all
-                io.KeyMap[(int)ImGuiKey.C          ] = (int)KeyCode.C,           // for text edit CTRL+C: copy
-                io.KeyMap[(int)ImGuiKey.V          ] = (int)KeyCode.V,           // for text edit CTRL+V: paste
-                io.KeyMap[(int)ImGuiKey.X          ] = (int)KeyCode.X,           // for text edit CTRL+X: cut
-                io.KeyMap[(int)ImGuiKey.Y          ] = (int)KeyCode.Y,           // for text edit CTRL+Y: redo
-                io.KeyMap[(int)ImGuiKey.Z          ] = (int)KeyCode.Z,           // for text edit CTRL+Z: undo
+                io.KeyMap[(int)ImGuiKey.Tab        ] = (int)Key.Tab,
+                io.KeyMap[(int)ImGuiKey.LeftArrow  ] = (int)Key.LeftArrow,
+                io.KeyMap[(int)ImGuiKey.RightArrow ] = (int)Key.RightArrow,
+                io.KeyMap[(int)ImGuiKey.UpArrow    ] = (int)Key.UpArrow,
+                io.KeyMap[(int)ImGuiKey.DownArrow  ] = (int)Key.DownArrow,
+                io.KeyMap[(int)ImGuiKey.PageUp     ] = (int)Key.PageUp,
+                io.KeyMap[(int)ImGuiKey.PageDown   ] = (int)Key.PageDown,
+                io.KeyMap[(int)ImGuiKey.Home       ] = (int)Key.Home,
+                io.KeyMap[(int)ImGuiKey.End        ] = (int)Key.End,
+                io.KeyMap[(int)ImGuiKey.Insert     ] = (int)Key.Insert,
+                io.KeyMap[(int)ImGuiKey.Delete     ] = (int)Key.Delete,
+                io.KeyMap[(int)ImGuiKey.Backspace  ] = (int)Key.Backspace,
+                io.KeyMap[(int)ImGuiKey.Space      ] = (int)Key.Space,
+                io.KeyMap[(int)ImGuiKey.Enter      ] = (int)Key.Enter,
+                io.KeyMap[(int)ImGuiKey.Escape     ] = (int)Key.Escape,
+                io.KeyMap[(int)ImGuiKey.KeypadEnter] = (int)Key.NumpadEnter,
+                io.KeyMap[(int)ImGuiKey.A          ] = (int)Key.A,           // for text edit CTRL+A: select all
+                io.KeyMap[(int)ImGuiKey.C          ] = (int)Key.C,           // for text edit CTRL+C: copy
+                io.KeyMap[(int)ImGuiKey.V          ] = (int)Key.V,           // for text edit CTRL+V: paste
+                io.KeyMap[(int)ImGuiKey.X          ] = (int)Key.X,           // for text edit CTRL+X: cut
+                io.KeyMap[(int)ImGuiKey.Y          ] = (int)Key.Y,           // for text edit CTRL+Y: redo
+                io.KeyMap[(int)ImGuiKey.Z          ] = (int)Key.Z,           // for text edit CTRL+Z: undo
             };
         }
 
         void UpdateKeyboard(ImGuiIOPtr io)
         {
+#if ENABLE_INPUT_SYSTEM
+            var keyboard = Keyboard.current;
+
+            // main keys
+            foreach (var key in _mainKeys)
+                io.KeysDown[key] = keyboard[(Key)key].isPressed;
+
+            // keyboard modifiers
+            io.KeyShift = keyboard.shiftKey.isPressed;
+            io.KeyCtrl = keyboard.ctrlKey.isPressed;
+            io.KeyAlt = keyboard.altKey.isPressed;
+            io.KeySuper = keyboard.leftCommandKey.isPressed || keyboard.rightCommandKey.isPressed
+                       || keyboard.leftWindowsKey.isPressed || keyboard.rightWindowsKey.isPressed;
+
+            // text input
+            while (Event.PopEvent(_e))
+                if (_e.rawType == EventType.KeyDown && _e.character != 0 && _e.character != '\n')
+                    io.AddInputCharacter(_e.character);
+#elif ENABLE_LEGACY_INPUT_MANAGER
             // main keys
             foreach (var key in _mainKeys)
                 io.KeysDown[key] = Input.GetKey((KeyCode)key);
@@ -137,10 +160,25 @@ namespace ImGuiNET.Unity
             while (Event.PopEvent(_e))
                 if (_e.rawType == EventType.KeyDown && _e.character != 0 && _e.character != '\n')
                     io.AddInputCharacter(_e.character);
+#endif
         }
 
         static void UpdateMouse(ImGuiIOPtr io)
         {
+#if ENABLE_INPUT_SYSTEM
+            var mouse = Mouse.current;
+            var mousePosition = mouse.position.ReadValue();
+
+            io.MousePos = ImGuiUn.ScreenToImGui(new Vector2(mousePosition.x, mousePosition.y));
+
+            var scroll = mouse.scroll.ReadValue().normalized;
+            io.MouseWheel = scroll.y;
+            io.MouseWheelH = scroll.x;
+
+            io.MouseDown[0] = mouse.leftButton.isPressed;
+            io.MouseDown[1] = mouse.rightButton.isPressed;
+            io.MouseDown[2] = mouse.middleButton.isPressed;
+#elif ENABLE_LEGACY_INPUT_MANAGER
             io.MousePos = ImGuiUn.ScreenToImGui(new Vector2(Input.mousePosition.x, Input.mousePosition.y));
 
             io.MouseWheel  = Input.mouseScrollDelta.y;
@@ -149,6 +187,7 @@ namespace ImGuiNET.Unity
             io.MouseDown[0] = Input.GetMouseButton(0);
             io.MouseDown[1] = Input.GetMouseButton(1);
             io.MouseDown[2] = Input.GetMouseButton(2);
+#endif
         }
 
         void UpdateCursor(ImGuiIOPtr io, ImGuiMouseCursor cursor)
